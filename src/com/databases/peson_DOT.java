@@ -3,7 +3,7 @@ package com.databases;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class peson_DOT {
+public class peson_DOA {
     private String url;
     private String usname;
     private String pword;
