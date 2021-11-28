@@ -3,7 +3,7 @@ package com.databases;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class peson_DOT {
+public class peson_DAO {
     private String url;
     private String usname;
     private String pword;
@@ -40,7 +40,7 @@ public class peson_DOT {
         this.con = con;
     }
 
-    public peson_DOT() {
+    public peson_DAO() {
         this.url = "jdbc:mysql://127.0.0.1:3306/crudapp?useSSL=false";
         this.usname = "root";
         this.pword = "root";

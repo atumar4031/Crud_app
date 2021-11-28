@@ -10,13 +10,13 @@ public class Main {
 //    public  static Connection con =  null;
     public static void main(String[] args){
 	// write your code here
-        peson_DOT peson_dot = new peson_DOT();
+        peson_DAO peson_dao = new peson_DAO();
         int menu = 1;
         Scanner scan = new Scanner(System.in);
         ArrayList<Person> ps = null;
         do{
             menu = menu();
-            peson_dot.getDBconnection();
+            peson_dao.getDBconnection();
             switch (menu){
                 case 1 -> {
                     try{
@@ -27,7 +27,7 @@ public class Main {
                         System.out.println("Enter age: ");
                         int age = parseInt(scan.nextLine());
                         Person person = new Person(id, name, age);
-                        peson_dot.addUser(person);
+                        peson_dao.addUser(person);
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -35,7 +35,7 @@ public class Main {
                 case 2 -> {
                     try{
                         System.out.println("----------------------------------------");
-                        ps = peson_dot.getUser();
+                        ps = peson_dao.getUser();
                         ps.stream().forEach(System.out::println);
                         System.out.println("----------------------------------------");
                     }catch(Exception e){
@@ -60,7 +60,7 @@ public class Main {
                 }
             }
             try {
-                var con = peson_dot.getCon();
+                var con = peson_dao.getCon();
                 con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
