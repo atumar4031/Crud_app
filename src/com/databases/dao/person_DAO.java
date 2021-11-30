@@ -97,8 +97,9 @@ public class person_DAO implements  i_person_dao{
         System.out.println("Enter new name: ");
         String name = new Scanner(System.in).nextLine();
         try{
-            String query = "UPDATE person SET name = ?";
+            String query = "UPDATE person SET name = ? WHERE id ="+ id;
             PreparedStatement prepStmt = connection.prepareStatement(query);
+//            prepStmt.setInt(1, id);
             prepStmt.setString(1, name);
             int resunt = prepStmt.executeUpdate();
             if(resunt > 0)
