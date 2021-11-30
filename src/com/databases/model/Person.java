@@ -1,4 +1,4 @@
-package com.databases;
+package com.databases.model;
 
 public class Person {
     private int id;

@@ -1,4 +1,6 @@
-package com.databases;
+package com.databases.services;
+import com.databases.dao.person_DAO;
+import com.databases.model.Person;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,14 +11,15 @@ import static java.lang.Integer.parseInt;
 public class Main {
 //    public  static Connection con =  null;
     public static void main(String[] args){
+        person_DAO person_dao = new person_DAO();
 	// write your code here
-        peson_DAO peson_dao = new peson_DAO();
-        int menu = 1;
+        int menu;
+        menu = 1;
         Scanner scan = new Scanner(System.in);
         ArrayList<Person> ps = null;
         do{
             menu = menu();
-            peson_dao.getDBconnection();
+//
             switch (menu){
                 case 1 -> {
                     try{
@@ -27,7 +30,7 @@ public class Main {
                         System.out.println("Enter age: ");
                         int age = parseInt(scan.nextLine());
                         Person person = new Person(id, name, age);
-                        peson_dao.addUser(person);
+                        person_dao.addUser(person);
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -35,7 +38,7 @@ public class Main {
                 case 2 -> {
                     try{
                         System.out.println("----------------------------------------");
-                        ps = peson_dao.getUser();
+                        ps = person_dao.getUser();
                         ps.stream().forEach(System.out::println);
                         System.out.println("----------------------------------------");
                     }catch(Exception e){
@@ -44,37 +47,54 @@ public class Main {
 
                 }
                 case 3 -> {
+                    System.out.println("Enter id: ");
+                    int id = parseInt(scan.nextLine());
                     try{
-//                        updateUser(id); // todo
+                        var p = person_dao.searchUser(id);
+                        System.out.println("----------------------------------------");
+                        System.out.println(p == null ? "Recorde not found" : p);
+                        System.out.println("----------------------------------------");
                     }catch(Exception e){
                         e.printStackTrace();
                     }
                 }
                 case 4 -> {
                     try{
-//                        deleteUser("Delete user"); // todo
-                        System.out.println("delete me");
+                        System.out.println("Enter user ID: ");
+                        int userId = parseInt(scan.nextLine());
+                        var res = person_dao.updateUser(userId);
+                            System.out.println(!res ? "failed to update" : "user updated successfully");
                     }catch(Exception e){
                         e.printStackTrace();
                     }
                 }
-            }
-            try {
-                var con = peson_dao.getCon();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+                case 5 -> {
+                    System.out.println("Enter id: ");
+                    int id = parseInt(scan.nextLine());
+                    try{
+                        var del = person_dao.deleteUser(id);
+                        System.out.println("----------------------------------------");
+                        System.out.println(!del ? "Something went wrong" : "Record deleted");
+                        System.out.println("----------------------------------------");
+                    }catch(Exception ex){
+                        ex.printStackTrace();
+                    }
+                }
+
             }
 
+
         }while (menu != 99);
+        person_dao.closeCon();
     }
 
     public static int menu() {
         Scanner scan = new Scanner(System.in);
         System.out.println("1. Add user");
-        System.out.println("2. show user");
-        System.out.println("3. Update user");
-        System.out.println("4. Delete user");
+        System.out.println("2. show users");
+        System.out.println("3. search user");
+        System.out.println("4. update user");
+        System.out.println("5. delete user");
         return parseInt(scan.nextLine());
     }
 }
